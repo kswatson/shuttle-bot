@@ -19,39 +19,10 @@ const lib = require('lib')({token: process.env.STDLIB_TOKEN});
 
 
 module.exports = (user, channel, text = '', event = {}, botToken = null, callback) => {
-
-
-
-  union_normal_hours = [7, 8, 9, 11, 12, 13, 14, 15, 16, 17];
-
-  var union_map = new Map();
-  for (const hour of union_normal_hours) {
-    union_map.set(hour, [0, 10, 20, 30, 40, 50]);
-    }
-  union_map.set(6, [30, 40, 50]);
-  union_map.set(10, [10, 40]);
-  union_map.set(18, [0, 15, 30, 45]);
-  union_map.set(19, [0, 15, 30, 45]);
-
-  king_even_hours = [11, 12, 13, 14];
-  king_odd_hours = [9, 15, 16, 17];
-  var king_map = new Map();
-  for (const hour of king_even_hours) {
-    king_map.set(hour, [0, 10, 20, 30, 40, 50]);
-  }
-  for (const hour of king_odd_hours) {
-    king_map.set(hour, [5, 15, 25, 35, 45, 55]);
-  }
-  king_map.set(6, [40, 50]);
-  king_map.set(7, [0, 10, 20, 30, 45]);
-  king_map.set(8, [0, 5, 15, 25, 35, 45, 55]);
-  king_map.set(10, [0, 20, 30, 50]);
-  king_map.set(18, [5, 15, 30, 45]);
-  king_map.set(19, [0, 15, 30, 45]);
-
+  var union_map = buildTimetableFromUnion()
+  var king_map = buildTimetableFromKing()
 
   var cur_date = new Date();
-  var timezone_offset = cur_date.getTimezoneOffset();
   var toronto_offset = -4;
   var cur_hour = cur_date.getUTCHours() + toronto_offset;
   var cur_minute = cur_date.getUTCMinutes();
@@ -81,6 +52,40 @@ module.exports = (user, channel, text = '', event = {}, botToken = null, callbac
   }
 };
 
+function buildTimetableFromUnion() {
+  union_normal_hours = [7, 8, 9, 11, 12, 13, 14, 15, 16, 17];
+
+  var union_map = new Map();
+  for (const hour of union_normal_hours) {
+    union_map.set(hour, [0, 10, 20, 30, 40, 50]);
+    }
+  union_map.set(6, [30, 40, 50]);
+  union_map.set(10, [10, 40]);
+  union_map.set(18, [0, 15, 30, 45]);
+  union_map.set(19, [0, 15, 30, 45]);
+  
+  return union_map;
+}
+
+function buildTimetableFromKing() {
+  king_even_hours = [11, 12, 13, 14];
+  king_odd_hours = [9, 15, 16, 17];
+  var king_map = new Map();
+  for (const hour of king_even_hours) {
+    king_map.set(hour, [0, 10, 20, 30, 40, 50]);
+  }
+  for (const hour of king_odd_hours) {
+    king_map.set(hour, [5, 15, 25, 35, 45, 55]);
+  }
+  king_map.set(6, [40, 50]);
+  king_map.set(7, [0, 10, 20, 30, 45]);
+  king_map.set(8, [0, 5, 15, 25, 35, 45, 55]);
+  king_map.set(10, [0, 20, 30, 50]);
+  king_map.set(18, [5, 15, 30, 45]);
+  king_map.set(19, [0, 15, 30, 45]);
+  
+  return king_map;
+}
 
 function formatMinute(minute) {
   str = minute.toString()
