@@ -23,7 +23,7 @@ module.exports = (user, channel, text = '', event = {}, botToken = null, callbac
   var king_map = buildTimetableFromKing()
 
   var cur_date = new Date();
-  var toronto_offset = -4;
+  var toronto_offset = -5; //REMEMBER DAYLIGHT SAVINGS!!
   var cur_hour = cur_date.getUTCHours() + toronto_offset;
   var cur_minute = cur_date.getUTCMinutes();
 
