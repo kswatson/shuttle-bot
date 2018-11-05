@@ -3,7 +3,7 @@ module.exports = (slack_event, context) => {
     var king_map = buildTimetableFromKing()
   
     var cur_date = new Date();
-    var toronto_offset = -4; //REMEMBER DAYLIGHT SAVINGS!!
+    var toronto_offset = -5; //REMEMBER DAYLIGHT SAVINGS!! (-4 after Spring Forward, -5 after Fall Back)
     var cur_hour = cur_date.getUTCHours() + toronto_offset;
     var cur_minute = cur_date.getUTCMinutes();
   
